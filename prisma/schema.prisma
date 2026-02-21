@@ -8,16 +8,21 @@ datasource db {
 }
 
 model User {
-  id            String        @id @default(uuid())
-  name          String
-  email         String        @unique
-  password      String
-  role          Role
-  isBanned      Boolean       @default(false)
-  avatar        String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  tutorProfiles TutorProfile?
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  isBanned  Boolean  @default(false)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tutorProfile    TutorProfile?
+  studentBookings Booking[]     @relation("StudentBookings")
+  tutorBookings   Booking[]     @relation("TutorBookings")
+  studentReviews  Review[]      @relation("StudentReviews")
+  tutorReviews    Review[]      @relation("TutorReviews")
 
   @@map("users")
 }
@@ -34,13 +39,63 @@ model TutorProfile {
   totalReviews     Int      @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  users            User     @relation(fields: [userId], references: [id])
+
+  user User @relation(fields: [userId], references: [id])
 
   @@map("tutorProfiles")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bookings Booking[]
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  studentId   String
+  tutorId     String
+  categoryId  String
+  sessionDate DateTime
+  startTime   DateTime
+  endTime     DateTime
+  status      BookingStatus
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  student  User     @relation("StudentBookings", fields: [studentId], references: [id])
+  tutor    User     @relation("TutorBookings", fields: [tutorId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  review   Review?
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  bookingId String   @unique
+  studentId String
+  tutorId   String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  student User    @relation("StudentReviews", fields: [studentId], references: [id])
+  tutor   User    @relation("TutorReviews", fields: [tutorId], references: [id])
 }
 
 enum Role {
   STUDENT
   TUTOR
   ADMIN
+}
+
+enum BookingStatus {
+  CONFIRMED
+  COMPLETED
+  CANCELLED
 }

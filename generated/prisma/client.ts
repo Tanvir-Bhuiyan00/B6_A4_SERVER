@@ -47,3 +47,18 @@ export type User = Prisma.UserModel
  * 
  */
 export type TutorProfile = Prisma.TutorProfileModel
+/**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
+ * Model Booking
+ * 
+ */
+export type Booking = Prisma.BookingModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
