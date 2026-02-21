@@ -7,23 +7,16 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role {
-  STUDENT
-  TUTOR
-  ADMIN
-}
-
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role
-  isBanned  Boolean  @default(false)
-  avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id            String        @id @default(uuid())
+  name          String
+  email         String        @unique
+  password      String
+  role          Role
+  isBanned      Boolean       @default(false)
+  avatar        String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   tutorProfiles TutorProfile?
 
   @@map("users")
@@ -41,8 +34,13 @@ model TutorProfile {
   totalReviews     Int      @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-
-  users User @relation(fields: [userId], references: [id])
+  users            User     @relation(fields: [userId], references: [id])
 
   @@map("tutorProfiles")
+}
+
+enum Role {
+  STUDENT
+  TUTOR
+  ADMIN
 }

@@ -12,6 +12,7 @@ const createUserIntoDB = async (payload: any) => {
     data: { ...payload, password: hashPassword },
   });
   const { password, ...newResult } = result;
+
   return newResult;
 };
 

@@ -17,10 +17,10 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.4.0",
-  "engineVersion": "ab56fe763f921d033a6c195e7ddeb3e255bdbb57",
+  "clientVersion": "7.4.1",
+  "engineVersion": "55ae170b1ced7fc6ed07a15f110549408c501bb3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Role {\n  STUDENT\n  TUTOR\n  ADMIN\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  name      String\n  email     String   @unique\n  password  String\n  role      Role\n  isBanned  Boolean  @default(false)\n  avatar    String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  tutorProfiles TutorProfile?\n\n  @@map(\"users\")\n}\n\nmodel TutorProfile {\n  id               String   @id @default(uuid())\n  userId           String   @unique\n  bio              String?\n  experienceYears  Int?\n  hourlyRate       Float?\n  subjects         String?\n  availabilityInfo String?\n  averageRating    Float    @default(0)\n  totalReviews     Int      @default(0)\n  createdAt        DateTime @default(now())\n  updatedAt        DateTime @updatedAt\n\n  users User @relation(fields: [userId], references: [id])\n\n  @@map(\"tutorProfiles\")\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id            String        @id @default(uuid())\n  name          String\n  email         String        @unique\n  password      String\n  role          Role\n  isBanned      Boolean       @default(false)\n  avatar        String?\n  createdAt     DateTime      @default(now())\n  updatedAt     DateTime      @updatedAt\n  tutorProfiles TutorProfile?\n\n  @@map(\"users\")\n}\n\nmodel TutorProfile {\n  id               String   @id @default(uuid())\n  userId           String   @unique\n  bio              String?\n  experienceYears  Int?\n  hourlyRate       Float?\n  subjects         String?\n  availabilityInfo String?\n  averageRating    Float    @default(0)\n  totalReviews     Int      @default(0)\n  createdAt        DateTime @default(now())\n  updatedAt        DateTime @updatedAt\n  users            User     @relation(fields: [userId], references: [id])\n\n  @@map(\"tutorProfiles\")\n}\n\nenum Role {\n  STUDENT\n  TUTOR\n  ADMIN\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -174,7 +174,7 @@ export interface PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): runtime.Types.Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
