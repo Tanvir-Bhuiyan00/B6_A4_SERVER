@@ -36,7 +36,7 @@ const loginUser = async (req: Request, res: Response) => {
       statusCode: 201,
       success: true,
       message: "User logged in successfully",
-      data: result,
+      data: result.user,
     });
   } catch (error) {
     sendResponse(res, {
