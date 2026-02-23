@@ -64,3 +64,27 @@ The API uses **JWT (JSON Web Tokens)** for authentication:
 2. Include token in `Cookies`
 3. Server validates token using JWT_SECRET
 4. Role-based access control (RBAC) applied to protected routes
+
+### Password Security
+
+- Passwords hashed with bcrypt before storage
+- Minimum security standards enforced
+
+## Error Handling
+
+The API implements global error handling with:
+
+- Consistent error response format
+- HTTP status codes
+- Descriptive error messages
+- Detailed logging for debugging
+
+## Environment Variables
+
+| Variable       | Description                  | Required           |
+| -------------- | ---------------------------- | ------------------ |
+| `PORT`         | Server port                  | No (default: 3000) |
+| `DATABASE_URL` | PostgreSQL connection string | Yes                |
+| `JWT_SECRET`   | Secret key for JWT signing   | Yes                |
+
+**Made with ❤️ using Express, Prisma, and TypeScript**
