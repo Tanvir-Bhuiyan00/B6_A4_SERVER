@@ -68,9 +68,13 @@ const getTutorById = async (id: string) => {
 };
 
 const updateTutorProfile = async (userId: string, payload: any) => {
-  const tutorProfile = await prisma.tutorProfile.update({
+  const tutorProfile = await prisma.tutorProfile.upsert({
     where: { userId },
-    data: {
+    update: {
+      ...payload,
+    },
+    create: {
+      userId,
       ...payload,
     },
     include: {
@@ -85,9 +89,13 @@ const updateTutorAvailability = async (
   userId: string,
   availabilityInfo: string,
 ) => {
-  const tutorProfile = await prisma.tutorProfile.update({
+  const tutorProfile = await prisma.tutorProfile.upsert({
     where: { userId },
-    data: { availabilityInfo },
+    update: { availabilityInfo },
+    create: {
+      userId,
+      availabilityInfo,
+    },
   });
 
   return tutorProfile;
