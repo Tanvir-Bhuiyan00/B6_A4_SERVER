@@ -30,7 +30,6 @@ const createReview = async (payload: any) => {
     },
   });
 
-  // Update tutor's average rating
   const tutorReviews = await prisma.review.findMany({
     where: { tutorId },
   });
