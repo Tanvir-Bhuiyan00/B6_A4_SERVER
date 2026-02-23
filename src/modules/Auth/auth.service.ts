@@ -50,7 +50,29 @@ const loginUserIntoDB = async (payload: any) => {
   };
 };
 
+const getCurrentUser = async (email: string | undefined) => {
+  if (!email) {
+    throw new Error("Email not found!");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: {
+      tutorProfile: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found!");
+  }
+
+  const { password, ...userWithoutPassword } = user;
+
+  return userWithoutPassword;
+};
+
 export const AuthService = {
   createUserIntoDB,
   loginUserIntoDB,
+  getCurrentUser,
 };

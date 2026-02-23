@@ -48,7 +48,28 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
+const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    const result = await AuthService.getCurrentUser(req.user?.email);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "User fetched successfully",
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Something went wrong!!",
+      data: error,
+    });
+  }
+};
+
 export const AuthController = {
   createUser,
   loginUser,
+  getCurrentUser,
 };
