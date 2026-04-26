@@ -44,9 +44,10 @@ const loginUserIntoDB = async (payload: any) => {
 
   const token = jwt.sign(userData, secret, { expiresIn: "1d" });
 
+  const { password, ...userWithoutPassword } = user;
   return {
     token,
-    user,
+    user: userWithoutPassword,
   };
 };
 
