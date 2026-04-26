@@ -12,7 +12,11 @@ export enum UserRole {
 const auth = (...roles: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const token = req.cookies?.token;
+      const token =
+        req.cookies?.token ||
+        (req.headers.authorization?.startsWith("Bearer ")
+          ? req.headers.authorization.slice(7)
+          : undefined);
       if (!token) {
         throw new Error("Token not found!!");
       }
